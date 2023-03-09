@@ -1,1 +1,16 @@
-{a=gensub("\.[a-z0-9]+$","","g",$3); b=gensub("\.[a-z0-9:]+$","","g",$5); print a $4 b;}
+{
+  a=0;
+  if ($2 > a) {a=$2}
+  if ($1 in memusage && $1 != "USER") {
+    memusage[$1]=memusage[$1]+$4;
+    processcount[$1]=processcount[$1]+1;}
+  else if ($1 != "USER" && !($1 in memusage))
+  {
+    memusage[$1]=$4;
+    processcount[$1]=1;
+  }
+}
+END{
+  print "Самый большой PID = " a;
+  for (var in memusage) print "уникальный пользователь - " var " процент использования памяти: " memusage[var] " количество процессов: " processcount[var];
+}
